@@ -22,4 +22,4 @@ jobs:
       - name: display inputs context 
         run: |
           echo "Inputs that are displayed"
-          echo ${{ toJson(inputs) }}
+          echo "${{ toJson(inputs) }}"
