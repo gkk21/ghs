@@ -1,0 +1,25 @@
+name: Resuable workflow 
+on:
+  workflow_call:
+    inputs:
+      value1:
+        description: value1 
+        type: string 
+      value2:
+        description: value2
+        type: string
+      value3:
+        description: value3
+        type: string 
+      value4:
+        description: value4
+        type: string 
+
+jobs:
+  dispaly_inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: display inputs context 
+        run: |
+          echo "Inputs that are displayed"
+          echo ${{ toJson(inputs) }}
