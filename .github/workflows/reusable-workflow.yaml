@@ -26,4 +26,4 @@ jobs:
 
           echo "Read the inputs from json file"
           cat inputs.json 
-          
+                 
