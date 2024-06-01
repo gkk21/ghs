@@ -3,10 +3,31 @@ on:
   workflow_dispatch:
 
 jobs:
-  calling-resubale-workfow:
-    uses: ./.github/workflows/reusable-workflow.yaml
-    with:
-      value1: "value1"
-      value2: "value2"
-      value3: "value3"
-      value4: "value4"
+  #calling-resubale-workfow:
+  #  uses: ./.github/workflows/reusable-workflow.yaml
+  #  with:
+  #    value1: "value1"
+  #    value2: "value2"
+  #    value3: "value3"
+  #    value4: "value4"
+  run-shell-commands:
+    runs-on: ubuntu-latest
+    steps:
+      - name: python shell
+        shell: python -u {0}
+        id: python_step
+        run: |
+          import json
+          import subprocess
+          print("Hello World")
+
+          mydict = {}
+          mydict['abc'] = "abc"
+          mydict['def'] = "def"
+          mystring = json.dumps(mydict)
+          cmd = f"echo mystring={mystring} >> $GITHUB_OUTPUT"
+          subprocess.call(cmd, shell=true)
+      
+      - name: print stmt
+        run: |
+          echo  mystring : ${{ steps.python_step.outputs.mystring}}
