@@ -25,7 +25,7 @@ jobs:
           mydict['abc'] = "abc"
           mydict['def'] = "def"
           mystring = json.dumps(mydict)
-          cmd = f"echo mystring={mystring} >> $GITHUB_OUTPUT"
+          cmd = f"echo mystring='{mystring}' >> $GITHUB_OUTPUT"
           subprocess.call(cmd, shell=True)
       
       - name: print stmt
@@ -33,6 +33,7 @@ jobs:
         run: |
           import json
           mystring = '${{ steps.python_step.outputs.mystring}}'
+          print(mystring)
 
           mydict = json.loads(mystring)
           print(mydict)
