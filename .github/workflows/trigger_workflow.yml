@@ -29,5 +29,10 @@ jobs:
           subprocess.call(cmd, shell=True)
       
       - name: print stmt
+        shell: python -u {0}
         run: |
-          echo  mystring : ${{ steps.python_step.outputs.mystring}}
+          import json
+          mystring = '${{ steps.python_step.outputs.mystring}}'
+
+          mydict = json.loads(mystring)
+          print(mydict)
