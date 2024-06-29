@@ -23,9 +23,11 @@ jobs:
         shell: bash
         run: |
           echo "display inputs context"
+          echo "echo  ${{ inputs.branch}}"
           
   processing_job:
     name: processing job
+    needs: [setup_job]
     runs-on: ubuntu-latest
     steps:
       - name: process the inputs
