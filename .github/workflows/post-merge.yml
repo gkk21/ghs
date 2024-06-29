@@ -39,7 +39,7 @@ jobs:
     name: publish success
     runs-on: ubuntu-latest
     needs: [setup_job, processing_job]
-    if: success() && ${{ inputs.branch }} == "main" 
+    if: success() && github.ref == 'refs/heads/main'
     steps:
       - name: publish success
         shell: bash
@@ -50,7 +50,7 @@ jobs:
     name: publish failure
     runs-on: ubuntu-latest
     needs: [setup_job, processing_job]
-    if: failure() && ${{ inputs.branch }} == "main"
+    if: failure() && github.ref == 'refs/heads/main'
     steps:
       - name: publish failure
         shell: bash
@@ -61,7 +61,7 @@ jobs:
     name: publish dev results
     runs-on: ubuntu-latest
     needs: [setup_job, processing_job]
-    if: (success() || failure()) &&  ${{ inputs.branch }} != "main" 
+    if: (success() || failure()) &&  github.ref != 'refs/heads/main'
     steps:
       - name: publish dev results
         shell: bash
