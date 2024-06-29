@@ -1,9 +1,14 @@
-name: Proprietary-apps Post Merge
+name: Post Merge
 # Build on ToT for the purposes of running downstream tests. The workflow will create
 # both a debug and a release build and upload them to the fileshare so that developers can pick
 # which build they would like to use.  This is specifically for the ultralight build
 on:
   workflow_dispatch:
+    inputs:
+      branch:
+        description: branch to run workflow from
+        required: false
+        default: main
   push:
     # Run when code is merged
     branches:
@@ -32,7 +37,7 @@ jobs:
     name: publish success
     runs-on: ubuntu-latest
     needs: [setup_job, processing_job]
-    if: always() && failure() && ${{ github.event.inputs.branch }} == "main" 
+    if: success() && ${{ inputs.branch }} == "main" 
     steps:
       - name: publish success
         shell: bash
@@ -43,7 +48,7 @@ jobs:
     name: publish failure
     runs-on: ubuntu-latest
     needs: [setup_job, processing_job]
-    if: always() && failure() && ${{ github.event.inputs.branch }} == "main"
+    if: failure() && ${{ inputs.branch }} == "main"
     steps:
       - name: publish failure
         shell: bash
@@ -54,7 +59,7 @@ jobs:
     name: publish dev results
     runs-on: ubuntu-latest
     needs: [setup_job, processing_job]
-    if: (success() || failure()) &&  ${{ github.event.inputs.branch }} != "main" 
+    if: (success() || failure()) &&  ${{ inputs.branch }} != "main" 
     steps:
       - name: publish dev results
         shell: bash
