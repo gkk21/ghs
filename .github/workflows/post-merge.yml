@@ -1,5 +1,4 @@
 name: Post Merge
-
 # Build on ToT for the purposes of running downstream tests. The workflow will create
 # both a debug and a release build and upload them to the fileshare so that developers can pick
 # which build they would like to use.  This is specifically for the ultralight build
@@ -27,6 +26,7 @@ jobs:
           
   processing_job:
     name: processing job
+    needs: [setup_job]
     runs-on: ubuntu-latest
     steps:
       - name: process the inputs
@@ -38,7 +38,7 @@ jobs:
     name: publish success
     runs-on: ubuntu-latest
     needs: [setup_job, processing_job]
-    if: success() && ${{ inputs.branch }} == "main" 
+    if: success() && github.ref == 'refs/heads/main'
     steps:
       - name: publish success
         shell: bash
@@ -49,7 +49,7 @@ jobs:
     name: publish failure
     runs-on: ubuntu-latest
     needs: [setup_job, processing_job]
-    if: failure() && ${{ inputs.branch }} == "main"
+    if: failure() && github.ref == 'refs/heads/main'
     steps:
       - name: publish failure
         shell: bash
@@ -60,7 +60,7 @@ jobs:
     name: publish dev results
     runs-on: ubuntu-latest
     needs: [setup_job, processing_job]
-    if: (success() || failure()) &&  ${{ inputs.branch }} != "main" 
+    if: (success() || failure()) &&  github.ref != 'refs/heads/main'
     steps:
       - name: publish dev results
         shell: bash
