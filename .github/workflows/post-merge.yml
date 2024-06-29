@@ -23,7 +23,6 @@ jobs:
         shell: bash
         run: |
           echo "display inputs context"
-          echo "echo  ${{ inputs.branch}}"
           
   processing_job:
     name: processing job
