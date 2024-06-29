@@ -33,6 +33,7 @@ jobs:
         shell: bash
         run: |
           echo "process the inputs"
+          exit 1
 
   publish_succees:
     name: publish success
